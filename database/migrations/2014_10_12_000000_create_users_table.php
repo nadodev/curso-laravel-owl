@@ -21,6 +21,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        // Adicione uma nova coluna virtual
+        \DB::statement("ALTER TABLE users ADD COLUMN email_active VARCHAR(255) GENERATED ALWAYS AS (CASE WHEN deleted_at IS NULL THEN email ELSE NULL END) STORED");
     }
 
     /**

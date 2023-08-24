@@ -9,11 +9,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        DB::unprepared('CREATE UNIQUE INDEX user_email_index ON users (email) WHERE deleted_at is NULL;');
+        DB::unprepared("CREATE UNIQUE INDEX user_email_index ON users (email_active)");
     }
 
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('user_email_index');
+        Schema::table('users', function(Blueprint $table) {
+            $table->dropIndex('user_email_index');
+        });
     }
 };
